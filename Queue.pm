@@ -4,7 +4,7 @@ use warnings;
 
 # General Information:
 *CREATOR = \"Stephan Wagner";
-*VERSION = \1.4;
+*VERSION = \"1.5.1b";
 *PACKAGE = \"Queue";
 
 sub new {
@@ -97,23 +97,42 @@ sub dump {
 	my @output;
 	my $output;
 	if ($seperator eq "\n") {
-		push(@output,"DATA \{");
-		foreach (@{$self->{'Data'}}) {
-			push(@output,"\t".$i.": ".$_);
+		@output = map {
+			my $index = $i;
 			$i++;
-		}
+			"\t".$i.": ".$_;
+		} @{$self->{'Data'}};
+		unshift(@output,"DATA \{");
 		push(@output,"\}\n");
 		$output = join($seperator,@output);
 	}
 	else {
-		foreach (@{$self->{'Data'}}) {
-			push(@output,$i.": ".$_);
-			$i++;
-		}
+		@output = @{$self->{'Data'}};
 		push(@output,"\n");
 		$output = join($seperator,@output);
 	}
 	return $output;
+}
+
+sub resize {
+	my $self = shift;
+	if (defined $_[0]) {
+		my $length = shift;
+		if ($length =~ /\d+/) {
+			$self->{'Length'} = $length;
+			return $length;
+		}
+		else {
+			return 1;
+		}
+	}
+	else {
+		return $self->{'Length'};
+	}
+}
+
+DESTROY {
+	# Placeholder for upcoming destructor...
 }
 
 1;
@@ -182,5 +201,9 @@ Returns the current size of the queue.
 =head2 dump
 
 Dumps all entries of the queue.
+
+=head2 resize
+
+Resizes the instance of queue. If no new length is provided, the method will return the current length.
 
 =cut
