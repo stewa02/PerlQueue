@@ -4,15 +4,19 @@ use warnings;
 
 # General Information:
 *CREATOR = \"Stephan Wagner";
-*VERSION = \1.0;
+*VERSION = \1.4;
 *PACKAGE = \"Queue";
 
 sub new {
 	my $type = shift;
     my %params = @_;
     my $self = {};
-
-    $self->{'Length'} = $params{'Length'};
+	if ($params{'Length'} =~ /\d+/) {
+		$self->{'Length'} = $params{'Length'};
+	}
+	else {
+		die "Warning: Non numeric argument!\n";
+	}
 	$self->{'Data'} = [];
     bless($self, $type);
 }
@@ -28,6 +32,28 @@ sub clear {
 	undef($self->{'Data'});
 }
 
+sub full {
+	my $self = shift;
+	my $arraysize = @{$self->{'Data'}};
+	if ($arraysize == $self->{'Length'}) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}
+
+sub empty {
+	my $self = shift;
+	my $arraysize = @{$self->{'Data'}};
+	unless ($arraysize != 0 or defined $self->{'Data'}) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}
+
 sub delete {
 	my $self = shift;
 	my $delitem = shift($self->{'Data'});
@@ -40,6 +66,19 @@ sub get {
 	return $getitem;
 }
 
+sub length {
+	my $self = shift;
+	return $self->{'Length'};
+}
+
+sub size {
+	my $self = shift;
+	my $arraysize;
+	$arraysize = @{$self->{'Data'}} if (defined $self->{'Data'});
+	$arraysize = 0 unless (defined $self->{'Data'});
+	return $arraysize;
+}
+
 sub add {
 	my ($self, $additem) = @_;
 	my $arraysize = @{$self->{'Data'}};
@@ -50,6 +89,31 @@ sub add {
 	else {
 		return 1;
 	}
+}
+
+sub dump {
+	my ($self, $seperator) = @_;
+	my $i = 0;
+	my @output;
+	my $output;
+	if ($seperator eq "\n") {
+		push(@output,"DATA \{");
+		foreach (@{$self->{'Data'}}) {
+			push(@output,"\t".$i.": ".$_);
+			$i++;
+		}
+		push(@output,"\}\n");
+		$output = join($seperator,@output);
+	}
+	else {
+		foreach (@{$self->{'Data'}}) {
+			push(@output,$i.": ".$_);
+			$i++;
+		}
+		push(@output,"\n");
+		$output = join($seperator,@output);
+	}
+	return $output;
 }
 
 1;
@@ -98,5 +162,25 @@ Removes all elements from the queue.
 =head2 pick
 
 Returns the first element of the queue, without removing it.
+
+=head2 full
+
+Returns if the queue is full (0) or not (1).
+
+=head2 empty
+
+Returns if the queue is empty (0) or not (1).
+
+=head2 length
+
+Returns the biggest possible size defined in the length-attribute.
+
+=head2 size
+
+Returns the current size of the queue.
+
+=head2 dump
+
+Dumps all entries of the queue.
 
 =cut
