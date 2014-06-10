@@ -1,0 +1,68 @@
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Queue - Simple object oriented queue
+
+=head1 VERSION
+
+version 1.6
+
+=head1 DESCRIPTION
+
+The Queue module is the simplest object oriented package for creating
+queues.
+
+=head1 METHODS
+
+=head2 new
+
+Creates a new instance of a queue object.
+
+=head2 add [ELEMENT]
+
+Adds the a specified element to the queue.
+
+=head2 get 
+
+Returns the first element in the queue and deletes the element from the queue.
+
+=head2 delete
+
+Removes the first element in the queue without returning it.
+
+=head2 clear
+
+Removes all elements from the queue.
+
+=head2 pick
+
+Returns the first element of the queue, without removing it.
+
+=head2 full
+
+Returns if the queue is full (0) or not (1).
+
+=head2 empty
+
+Returns if the queue is empty (0) or not (1).
+
+=head2 length
+
+Returns the biggest possible size defined in the length-attribute.
+
+=head2 size
+
+Returns the current size of the queue.
+
+=head2 dump
+
+Dumps all entries of the queue.
+
+=head2 resize [LENGTH]
+
+Resizes the instance of queue. If no new length is provided, the method will return the current length.
+
+=cut

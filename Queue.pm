@@ -4,7 +4,7 @@ use warnings;
 
 # General Information:
 *CREATOR = \"Stephan Wagner";
-*VERSION = \"1.5.1b";
+*VERSION = \"1.6";
 *PACKAGE = \"Queue";
 
 sub new {
@@ -46,7 +46,7 @@ sub full {
 sub empty {
 	my $self = shift;
 	my $arraysize = @{$self->{'Data'}};
-	unless ($arraysize != 0 or defined $self->{'Data'}) {
+	if ($arraysize == 0 or not defined $self->{'Data'}) {
 		return 0;
 	}
 	else {
@@ -149,7 +149,7 @@ Queue - Simple object oriented queue
 
 =head1 VERSION
 
-version 1.0
+version 1.6
 
 =head1 DESCRIPTION
 
@@ -202,7 +202,7 @@ Returns the current size of the queue.
 
 Dumps all entries of the queue.
 
-=head2 resize
+=head2 resize [LENGTH]
 
 Resizes the instance of queue. If no new length is provided, the method will return the current length.
 
