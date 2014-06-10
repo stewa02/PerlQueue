@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use lib "C:\\Users\\sw\\Desktop";
+use lib "<Path>";
 use Queue;
 use Test::More;
 
