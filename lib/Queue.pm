@@ -4,7 +4,7 @@ use warnings;
 
 # General Information:
 *CREATOR = \"Stephan Wagner";
-*VERSION = \"1.6";
+*VERSION = \"1.7";
 *PACKAGE = \"Queue";
 
 sub new {
@@ -21,15 +21,12 @@ sub new {
     bless($self, $type);
 }
 
-sub pick {
-	my $self = shift;
-	my $pickitem = $self->{'Data'}[0];
-	return $pickitem;
-}
+sub pick { return $_[0]->{'Data'}[0]; }
 
 sub clear {
 	my $self = shift;
 	undef($self->{'Data'});
+	$self->{'Data'} = [];
 }
 
 sub full {
@@ -66,10 +63,7 @@ sub get {
 	return $getitem;
 }
 
-sub length {
-	my $self = shift;
-	return $self->{'Length'};
-}
+sub length { return $_[0]->{'Length'}; }
 
 sub size {
 	my $self = shift;
@@ -114,21 +108,10 @@ sub dump {
 	return $output;
 }
 
-sub resize {
-	my $self = shift;
-	if (defined $_[0]) {
-		my $length = shift;
-		if ($length =~ /\d+/) {
-			$self->{'Length'} = $length;
-			return $length;
-		}
-		else {
-			return 1;
-		}
-	}
-	else {
-		return $self->{'Length'};
-	}
+sub resize : lvalue { $_[0]->{'Length'}; }
+
+AUTOLOAD {
+	warn "Method was not found!\n";
 }
 
 DESTROY {
@@ -149,7 +132,7 @@ Queue - Simple object oriented queue
 
 =head1 VERSION
 
-version 1.6
+version 1.7
 
 =head1 DESCRIPTION
 
@@ -202,8 +185,8 @@ Returns the current size of the queue.
 
 Dumps all entries of the queue.
 
-=head2 resize [LENGTH]
+=head2 resize = [LENGTH]
 
-Resizes the instance of queue. If no new length is provided, the method will return the current length.
+Resizes the instance of queue.
 
 =cut

@@ -8,7 +8,7 @@ Queue - Simple object oriented queue
 
 =head1 VERSION
 
-version 1.6
+version 1.7
 
 =head1 DESCRIPTION
 
@@ -61,8 +61,8 @@ Returns the current size of the queue.
 
 Dumps all entries of the queue.
 
-=head2 resize [LENGTH]
+=head2 resize = [LENGTH]
 
-Resizes the instance of queue. If no new length is provided, the method will return the current length.
+Resizes the instance of queue. 
 
 =cut

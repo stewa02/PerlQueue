@@ -1,17 +1,17 @@
 use strict;
 use warnings;
-use lib "<Path>";
+use lib "C:\\Users\\sw\\Desktop";
 use Queue;
 use Test::More;
 
-# Testing file for Queue V1.6
-# Editor: 		Stephan Wagner
-# File version: 1.0.0
+# Testing file for Queue V1.7
+# Editor: 	Stephan Wagner
+# File version: 1.1.0
 
 print qq{
-Testing file for Queue V1.6
+Testing file for Queue V1.7
 Author:		Stephan Wagner
-File version:	1.0.0
+File version:	1.1.0
 
 };
 
@@ -42,12 +42,14 @@ my $size = $queue->size();
 is( $size , 7 , "Size equals length when filled." );
 
 # Resize function / Resizing queue
-my $resize1 = $queue->resize();
-is( $resize1 , 7 , "Resize without parameter returns length." );
-my $resize2 = $queue->resize(10);
-is( $resize2 , 10 , "Resize returns new value." );
-my $newlength = $queue->length();
-is( $newlength , 10 , "Resize was correctly applied." );
+$queue->resize = 10;
+$length = $queue->length();
+is( $length , 10 , "Resize was correctly applied." );
+
+# Testing clear function
+$queue->clear();
+eval { $queue->add("test"); };
+unlike( $@ ,  qr/value/ , "Value successfully added." );
 
 # Basic functionalities
 for (my $i = 0; $i < 11; $i++) {
